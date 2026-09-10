@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ErgMate - My 500m ERG</title>
+  <style>
+    :root {
+      --bg: #071427;
+      --surface: #0e2038;
+      --surface-2: #133048;
+      --border: #1d3a5c;
+      --text: #e9f3f7;
+      --text-muted: #9db2c1;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --accent: #60a5fa;
+      --danger: #1e40af;
+      --radius: 14px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      background: radial-gradient(circle at top, #143a5c 0%, var(--bg) 60%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px 16px 60px;
+    }
+
+    .app {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .brand .mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #051020;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 10px;
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.35);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 0.5px;
+    }
+
+    .brand .tagline {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      margin-bottom: 4px;
+      font-size: 20px;
+    }
+
+    .card .subtitle {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .fixed-paragraph {
+      max-height: 360px;
+      overflow-y: auto;
+      padding: 4px 4px 4px 0;
+      border: none;
+    }
+
+    .fixed-paragraph::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .fixed-paragraph::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    .intro-block {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .intro-block strong {
+      color: var(--text);
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--text);
+    }
+
+    p {
+      color: var(--text-muted);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+    }
+
+    input[type="number"] {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      padding: 10px 12px;
+      font-size: 16px;
+      height: 44px;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin: 18px 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .btn {
+      min-width: 110px;
+      height: 52px;
+      padding: 0 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+      border: 1px solid var(--border);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #051020;
+      border: none;
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-stop {
+      background: linear-gradient(135deg, #93c5fd, var(--danger));
+      color: #051020;
+      border: none;
+      box-shadow: 0 6px 18px rgba(30, 64, 175, 0.28);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .stat {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .stat .value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+
+    .effort-field {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 18px 0;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .effort-field input {
+      width: 80px;
+    }
+
+    .timer-display {
+      background: #051220;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px;
+      margin: 16px 0;
+      text-align: center;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 17px;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      min-height: 28px;
+    }
+    .color-band {
+      height: 8px;
+       border-radius: 4px;
+      margin: 8px 0 16px;
+      background: linear-gradient(to right, #1e3a8a, #3b82f6, #93c5fd);
+}
+
+    .big-number {
+      font-size: 56px;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      margin: 8px 0;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+
+    .pace-label {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .text-black {
+      color: var(--text);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .sensor-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 18px;
+    }
+
+    .sensor-status {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <div class="brand">
+    <div class="mark">EM</div>
+    <h1>ErgMate</h1>
+    <div class="tagline">Universal metrics for any erg. Report  Watt-hrs
+      assumes 100 UserWatts and 4 ft handle pull </div>
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxx  ReadyAll xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+<div id="ReadyAll">
+  <div class="card">
+    <div class="fixed-paragraph">
+      <div class="intro-block">
+        <strong>ErgMate</strong> provides a baseline meters per stroke
+        based on yourcadence(SC) and split (seconds/500m).
+      </div>
+
+      <div class="intro-block">
+        ErgMate uses a 500m split time, and a sustainable cadence to calculate your
+        distance per stroke (DPS) for a workout at any cadence and
+        duration. It will soon include a timer for tracking cadence and workout duration, plus a
+        virtual "cox" to help keep you on-cadence.
+      </div>
+
+      <div class="intro-block">
+        <strong>Quick steps to "calibration":</strong> Strap in and row a few strokes
+        to estimate the cadence you can maintain for a 3-4 minute row on this erg 
+        and settings. Enter the cadence and your target 500m split (second/500m)
+
+        <br><br>
+        You're now good to go — any cadence, any distance, on this rowing machine and settings.
+      </div>
+      <div class="intro-block">
+        <strong>Notes:</strong> ErgMate mechanical watts are adjusted using 25% human efficiency.
+      </div>
+      <div class="intro-block">
+        <strong>Notes:</strong> The free version may require a calibration row.
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button onclick="showReady()" class="btn btn-primary">Ready</button>
+      <!--<button onclick="showRow()" class="btn">Row!</button>-->
+      <!--<button onclick="showErgset()" class="btn">myErgset</button>-->
+    </div>
+  </div>
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxx  Ready xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+<!--500m "timed trial" to determine rowing machine and settings based on-the-water
+based distance per stroke. Distance per stroke is fixed during a workout because we
+must assume a fixed pull force. Use a default dpsMtrs (8) if no Timed Trial.
+-->
+<div id="Ready" class="hidden">
+  <div class="card">
+    <h2>Ready</h2>
+    <div class="subtitle">Calibrate your erg and settings with a 500m timed split</div>
+
+    <!-- watts and pull length are hidden for similicity. Must use hidden defaults-->
+    <div class="field-grid">
+      <div class="field hidden" >
+        <label for="feWatts">User Watts (future)</label>
+        <input id="feWatts" type="number" value="105">
+      </div>
+      <div class="field">
+        <label for="feSplit">500m Split (seconds)</label>
+        <input id="feSplit" type="number" value="12">
+      </div>
+      <div class="field">
+        <label for="feCadn">500m sustainable Cadence</label>
+        <input id="feCadn" type="number" value="28">
+      </div>
+      <div class="field hidden">
+        <label for="pullLength">Handle Pull (ft)</label>
+        <input id="pullLength" type="number" value="4">
+      </div>
+    </div>
+
+    <h3 class="text-black">Calibrate @cadence to the 500m split</h3>
+
+    <div class="row">
+      <button onclick="startTimer()" class="btn btn-primary">Start/reStart</button>
+      <button onclick="stopTimer()" class="btn btn-stop">Pause</button>
+    </div>
+
+    <div id="readyTimer" class="timer-display"></div>
+
+    <div id="stopband" class="color-band"></div>
+
+    <!--is this the red line end of calibration-->
+    <div class="effort-field" id="effort-field"></div>
+    <div class="effort-field">
+      <input id="pcFeff" type="number" value="100">
+      <span>% Effort (Assume 100% if no 500m calibration)</span>
+    </div>
+
+  <!-- <div class="effort-field" id="effort-field"></div>-->
+
+    <div class="btn-row">
+      <button onclick="showRow()" class="btn btn-primary">Workout</button>
+      <button onclick="showReadyAll()" class="btn btn-ghost">Return</button>
+    </div>
+  </div>
+  </div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxx  Row  ---------------------------------------------------------------->
+<div id="Row" class="hidden">
+  <div class="card">
+    <h2>Row!</h2>
+  <div class="subtitle">Row at any cadence</div>
+   <!-- ErgMate stroke-counter sensor: optional WitMotion BLE sensor. When connected, real
+         detected strokes drive the count/distance/cadence below instead of the simulated
+         cadence ticker. See witmotion.js + stroke-detector.js and the module script near the
+         bottom of this file. -->
+  <div class="sensor-row">
+    <button id="ergmateConnectBtn" class="btn btn-primary" type="button">Connect Sensor</button>
+    <p id="ergmateSensorStatus" class="sensor-status">No sensor connected — using simulated cadence</p>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat">
+       <div class="label">Mtrs/Stroke</div>
+       <div class="value" id="dpsMtrs"></div>
+    </div>
+
+    <div class="stat">
+      <div class="label">Watts</div>
+      <div class="value" id="watts"></div>
+    </div>
+
+    <div class="stat">
+      <div class="label">ERG Pull (lbs)</div>
+      <div class="value" id="pullForce"></div>
+    </div>
+  </div>
+
+  <div class="field-grid">
+      <div class="field">
+        <label for="otwCadn">@ Workout Cadence</label>
+        <input id="otwCadn" type="number" value="28">
+      </div>
+      <div class="field">
+        <label for="pieceDist">Distance (m)</label>
+        <input id="pieceDist" type="number" value="500">
+      </div>
+  </div>
+
+  <p>Your workout with this machine and settings.</p>
+
+  <div class="row">
+      <!--Go directly to Pace ?? and start timer there !! This now starts the
+      timer and then in startTimer ??-->
+      <button onclick="startTimer()" class="btn btn-primary">Start</button>
+      <button onclick="stopTimer()" class="btn btn-stop">Pause/Stop</button>
+
+  </div>
+    <div id="rowTimer" class="timer-display"></div>
+    <div class="btn-row">
+      <button onclick="showReady()" class="btn btn-primary">Ready</button>
+      <button onclick="showReadyAll()" class="btn btn-ghost">ErgMate</button>
+    </div>
+  </div>
+</div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxx PACE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+<div id="Pace" class="hidden">
+  <div class="card">
+    <h2>Pace</h2>
+    <div class="big-number"><span id="strokes"></span></div>
+    <div class="timer-display"><span id="paceTimer"></span></div>
+    <div class="row">
+      <button onclick="startTimer()" class="btn btn-primary">reStart</button>
+      <button onclick="stopTimer()" class="btn btn-stop">Pause/Stop</button>
+  </div>
+  <!-- puts a color band the Pace display Note that block id is still Row-->
+   <div id="stopbandRow" class="color-band"></div>
+
+  <p> Well Rowed !!</p>
+
+  <div class="btn-row">
+      <!--make Finish button invisible until end of the "piece"-->
+      <button onclick="showReady()" class="btn btn-stop">End of Row/Return</button>
+      <!--Report button to eventually replace the final screenshot-->
+      <button onclick="showRow()" class="btn btn-stop">Report(tbd)</button>
+  </div>
+  </div>
+  </div>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxx  Ergset  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+<div id="Ergset" class="hidden">
+  <div class="card">
+    <h2>myErgset</h2>
+    <p>Only enter a value for machine pull length here to avoid changing previous constants.</p>
+
+    <div class="field">
+      <label for="dspMtrs">Distance per Stroke (revised or known)</label>
+      <input id="dspMtrs" type="number" placeholder="???">
+    </div>
+  </div></div></div>
+
+</body>
+
+<!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxx scripts xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<!--timer script (function)-->
+  <script>
+    // GLOBAL
+    let userWatthrs = 0;
+    let pullForce = 0;
+    let dpsMtrs = 8;                // DEFAULT VALUE ONLY
+
+    // TIMER ONLY
+    let interval = null;
+    let seconds = 0;
+    let old = 0;
+    let elapsed = 0;
+    let lastStroke = 0;
+    let strokes = 0;
+    let otwSpeed = 0;
+    let mechWatthrs = 0;
+    let mechWatts = 0;
+    let otwTime = 0;        // THIS WILL BE THE TIME TO ROW TARGET DISTANCE
+    let feSplit = 0;
+    let feCadn = 0;
+    let feWatts = 0;
+    let otwCadn = 0;
+    let otwDist = 0;
+    //GLOBALS !!
+    feCadn = Number(document.getElementById("feCadn").value); // user cadence
+
+//-----------------------------------------------------------------------------
+    function tt500() {
+      // when tt500() is called these are the global values from the Ready screen
+      //feCadn = Number(document.getElementById("feCadn").value); // user cadence
+      feWatts = 100;
+      <!--feWatts = Number(document.getElementById("feWatts").value); -->// user watts
+      feSplit = Number(document.getElementById("feSplit").value); // user split
+      pcFeff= Number(document.getElementById("pcFeff").value);
+      // initial default value set in Ergset block. Not used anymore?
+      dspMtrs = Number(document.getElementById("dspMtrs").value);
+      pullLength = 4;
+      <!--pullLength = Number(document.getElementById("pullLength").value);-->
+      dpsMtrs = (pcFeff/100)*30000/(feCadn * feSplit);
+      watts =  (pcFeff/100)*feWatts;
+      //1 watt= .7356*(ft x lbs / sec) .. lbs = watts * sec / ft  (sec = 60 / cadn)
+      /*this is really complicated. Obviously the pull force at the handle is not the
+      only work that is being done on the erg. Easy to oversimplify. Also, the published
+      watts are not simple. Yes, the only thing the erg sees is the handle force an
+      distance
+      See notes in Gdrive. Its a guess but if the demographic chart is showing human
+      effort watts, us factor of .25 from chart watts to handle pull (AND BACK !!)!!
+
+      */
+      pullForce = 60 * (.25*watts) /(pullLength * feCadn) ;   //??
+      // ASSUMED BODY WATTS 4XFT-LBS
+      mechWatts = .7356 * pullForce * pullLength;
+      // for display
+      pullForce = Number(pullForce.toFixed(1));
+      dpsMtrs = Number(dpsMtrs.toFixed(1));
+      watts = Number(watts.toFixed(1));
+      // to show on documeNT
+      document.getElementById("dpsMtrs").textContent = dpsMtrs;
+      document.getElementById("watts").textContent = watts;
+      document.getElementById("pullForce").textContent = pullForce;
+      }
+//------------------------------------------------------------------------------
+  // UPDATE DISPLAY ON TIMER INTERVALS
+    function updateStrokes(){
+      if (currentBlock.id === "Ready"){
+        userWatthrs = feWatts * seconds / 3600;
+        userWatthrs = Number(userWatthrs.toFixed(2));
+        // udate cadence entry in box with latest feCadence entry !!
+        feCadn = Number(document.getElementById("feCadn").value); // user cadence
+        }
+      if (currentBlock.id === "Row"){
+        //tt500(); // NEED TO GO DIRECTLY TO ROW WITHOUT GO TAP RUN
+        userWatthrs = feWatts * seconds / 3600;
+        userWatthrs = Number(userWatthrs.toFixed(2));
+        otwDist = dpsMtrs*strokes;
+        otwSpeed = 500/(dpsMtrs*otwCadn);
+        // (ft-lbs/sec)*pullTime = mechWatts*pullTime
+        // pulltime???? otwCadn???
+        pullTime = .5*60/otwCadn;
+        mechWatts = .7356*pullForce*pullLength/pullTime   //watts per stroke
+        // ASSUME HUMAN WATTS 4XMECHWATTS
+        mechWatthrs = 4*mechWatts*strokes/3600;
+        mechWatthrs = Number(mechWatthrs.toFixed(1));
+        }
+        let html =
+        "Strokes: " + strokes +
+        " &nbsp;&nbsp; Seconds: " + seconds + "<br>";
+
+        if (currentBlock.id === "Ready") {
+        html +=
+          "Cadence: " + feCadn +
+          " &nbsp;&nbsp; UserWatt-hrs: " + userWatthrs.toFixed(2) ;
+          document.getElementById("readyTimer").innerHTML = html;
+        }
+      else if (currentBlock.id === "Row") {
+        // ADD THESE TO html element
+
+        html +=
+        "Est. Distance: " + otwDist.toFixed(0) +
+        " &nbsp;&nbsp; Est. min/500m: " + otwSpeed.toFixed(2) + "<br>";
+         html += "Mech Watt-hrs: " + mechWatthrs.toFixed(2)+
+         " &nbsp;&nbsp; User Watt-hrs: " + userWatthrs.toFixed(2);
+
+        <!--add min500m document for Pace screen-->
+
+
+        document.getElementById("rowTimer").innerHTML = html;
+        document.getElementById("strokes").textContent = strokes;
+
+        document.getElementById("paceTimer").innerHTML = html;
+        }
+      }
+    let isPaused = false;
+
+  //--------------------------------------------------------------------------------
+   function startTimer() {
+    effortfield = document.getElementById('effort-field');
+
+
+    let feSplit = Number(document.getElementById("feSplit").value); // user split
+    let feCadn = Number(document.getElementById("feCadn").value); // user cadence
+
+    <!--let feWatts = Number(document.getElementById("feWatts").value);--> // user watts
+    otwCadn = Number(document.getElementById("otwCadn").value);
+    let pieceDist = Number(document.getElementById("pieceDist").value);
+    split = feSplit;
+    cadn = feCadn;
+
+    if (currentBlock.id === "Ready"){
+      stopCalib = document.getElementById('stopband');
+      dpsMtrs = 8;   // PRE-TT VALUE
+      }
+    if (currentBlock.id === "Row"){
+      stopRow = document.getElementById('stopbandRow');
+      showPace();
+      cadn = otwCadn;
+
+        // Start every Row workout with a clean hardware stroke count, even if the sensor has
+        // been connected (and picking up motion) for a while before Start was pressed.
+        if (window.ergmateSensor) window.ergmateSensor.reset();
+        <!--this is ok . . . keeps block id = Row -->
+      }
+
+    if (interval) return;
+        interval = setInterval(() => {
+        // elapsed =seconds++; BETTER START
+        elapsed += 50;
+
+        // ErgMate stroke-counter sensor: once a WitMotion sensor is connected during a Row
+        // workout, real detected strokes (and real measured cadence) drive everything below
+        // instead of the simulated fixed-interval ticker. Ready always uses the simulated
+        // ticker, and Row falls back to it too whenever no sensor is connected.
+        const sensorActive = currentBlock.id === "Row" && window.ergmateSensor && window.ergmateSensor.connected;
+
+        if (sensorActive) {
+          strokes = window.ergmateSensor.count;
+          if (window.ergmateSensor.rate > 0) {
+            otwCadn = window.ergmateSensor.rate; // live measured spm feeds the watts/pull-force math
+          }
+          seconds = elapsed / 1000; // real wall-clock time, since stroke timing is no longer assumed
+          seconds = seconds.toFixed(1);
+        } else {
+          let strokeInterval = 60000 /cadn;   // ms per stroke
+          // update when time > stroke interval
+          if (elapsed - lastStroke >= strokeInterval) {
+              strokes++;
+              //beep();
+              lastStroke += strokeInterval;
+          }
+          seconds = strokeInterval*strokes/1000;
+          seconds = seconds.toFixed(1);
+        }
+        updateStrokes();
+        old = seconds;
+
+        if (currentBlock.id === "Ready"){
+          if (seconds>= split){
+            resetTimer();
+            stopCalib.style.background = '#1e3a8a';
+              }}
+    /* Pace screen is displayed in the id =Row block */
+          else if (currentBlock.id === "Row"){
+          if (otwDist >= pieceDist){
+            resetTimer();
+            stopRow.style.background = '#1e3a8a';
+
+          }}
+        else {
+        // console.log("Unknown block:", currentBlock.id);
+          }
+        }, 50);
+      }
+
+
+//------------------------------------------------------------------------------
+function stopTimer() {
+    // pause: stop the tick but keep all state so startTimer() can resume it
+    clearInterval(interval);
+    interval = null;
+    isPaused = true;
+    /* if end of workout
+    isPaused = false;
+    starting values ?? stroke = 0, seconds = 0
+    updateStroke(); ??
+    */
+    }
+
+//------------------------------------------------------------------------------
+  function resetTimer() {
+    clearInterval(interval);
+    interval = null;
+    seconds = 0;
+    old = 0;
+    strokes = 0;
+    if (window.ergmateSensor) window.ergmateSensor.reset();
+}
+
+//------------------------------------------------------------------------------
+  function showReadyAll() {
+    currentBlock = document.getElementById("ReadyAll");
+    document.getElementById("ReadyAll").style.display = "block";
+    document.getElementById("Row").style.display = "none";
+    document.getElementById("Ready").style.display = "none";
+    document.getElementById("Ergset").style.display = "none";
+    document.getElementById("Pace").style.display = "none";
+    }
+//------------------------------------------------------------------------------
+  function showReady() {
+    currentBlock = document.getElementById("Ready");
+    tt500();  // ready screen before and during change
+    document.getElementById("ReadyAll").style.display = "none";
+    document.getElementById("Ready").style.display = "block";
+    document.getElementById("Row").style.display = "none";
+    document.getElementById("Ergset").style.display = "none";
+    document.getElementById("Pace").style.display = "none";
+    }
+//------------------------------------------------------------------------------
+  function showRow() {
+    //tt500(); //row screen after ready screen entries and during changes to workout
+    currentBlock = document.getElementById("Row");
+    tt500();
+    document.getElementById("ReadyAll").style.display = "none";
+    document.getElementById("Ready").style.display = "none";
+    document.getElementById("Row").style.display = "block";
+    document.getElementById("Ergset").style.display = "none";
+    document.getElementById("Pace").style.display = "none";
+    }
+//------------------------------------------------------------------------------
+  function showErgset() {
+    document.getElementById("ReadyAll").style.display = "none";
+    document.getElementById("Ready").style.display = "none";
+    document.getElementById("Row").style.display = "none";
+    document.getElementById("Ergset").style.display = "block";
+    document.getElementById("Pace").style.display = "none";
+    }
+  //------------------------------------------------------------------------------
+  function showPace() {
+    document.getElementById("ReadyAll").style.display = "none";
+    document.getElementById("Ready").style.display = "none";
+    document.getElementById("Row").style.display = "none";
+    document.getElementById("Ergset").style.display = "none";
+    document.getElementById("Pace").style.display = "block";
+    }
+
+
+
+</script>
+
+<!-- ErgMate stroke-counter sensor bridge: connects the WitMotion BLE sensor (witmotion.js) to the
+     PCA-based stroke detector (stroke-detector.js) and exposes the live count/rate on
+     window.ergmateSensor, since the classic script above (with its onclick="..." handlers) can't
+     import ES modules directly. Requires witmotion.js and stroke-detector.js alongside this file,
+     and the page served over http://localhost or https:// (Web Bluetooth doesn't work over
+     file://). -->
+<script type="module">
+  import { WitMotionSensor } from './witmotion.js';
+  import { StrokeDetector } from './stroke-detector.js';
+
+  const sensor = new WitMotionSensor();
+  const detector = new StrokeDetector();
+
+  window.ergmateSensor = {
+    connected: false,
+    count: 0,
+    rate: 0,
+    reset: () => detector.reset(),
+  };
+
+  const connectBtn = document.getElementById('ergmateConnectBtn');
+  const statusEl = document.getElementById('ergmateSensorStatus');
+
+  function setStatus(text, color) {
+    statusEl.textContent = text;
+    statusEl.style.color = color || '';
+  }
+
+  sensor.addEventListener('reading', (e) => {
+    detector.addSample(e.detail);
+    window.ergmateSensor.count = detector.getCount();
+    window.ergmateSensor.rate = detector.getRate();
+    if (window.ergmateSensor.connected) {
+      setStatus(
+        `Connected — ${detector.getCount()} strokes · ${detector.getRate().toFixed(1)} spm`,
+        '#3b82f6'
+      );
+    }
+  });
+
+  connectBtn.addEventListener('click', async () => {
+    if (sensor.connected) {
+      await sensor.disconnect();
+      return;
+    }
+    try {
+      connectBtn.disabled = true;
+      setStatus('Requesting device…', '#3b82f6');
+      await sensor.connect();
+    } catch (err) {
+      console.error(err);
+      setStatus(err.message || 'Connection failed', '#1e40af');
+    } finally {
+      connectBtn.disabled = false;
+    }
+  });
+
+  sensor.addEventListener('connected', (e) => {
+    window.ergmateSensor.connected = true;
+    setStatus(`Connected — ${e.detail.name || 'sensor'} (live strokes active)`, '#3b82f6');
+    connectBtn.textContent = 'Disconnect';
+  });
+
+  sensor.addEventListener('disconnected', () => {
+    window.ergmateSensor.connected = false;
+    setStatus('No sensor connected — using simulated cadence', '');
+    connectBtn.textContent = 'Connect Sensor';
+  });
+</script>
+
+</html>
