@@ -1,0 +1,9 @@
+Ergmate capacitor install 9.10:
+
+Claude built a folder for me. Looks fine.
+
+Had to make a permission change to the Terminal.
+
+Need Android Studio to continue. VSCode is not enough to build the wrapper.
+
+ReadMe seems to think it has made necessary modifications to use Witmotion.

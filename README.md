@@ -1,5 +1,4 @@
 
-Test of new github repo
 # ErgMate — Capacitor project
 
 Native iOS + Android wrapper for the ErgMate web app, built with [Capacitor](https://capacitorjs.com).
