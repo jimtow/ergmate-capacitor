@@ -1,5 +1,9 @@
 
 How do I publish this for local Android ?
+You're building something yourself — if you (or someone) built a web app with Capacitor and named the project "ergmate-capacitor" (e.g., a repo on GitHub), the way to get it on an Android device is the standard Capacitor build flow: npx cap add android, npx cap sync, then open the android/ folder in Android Studio to build and install the APK on your device.
+
+
+
 
 # ErgMate — Capacitor project
 
