@@ -1,4 +1,6 @@
 
+How do I publish this for local Android ?
+
 # ErgMate — Capacitor project
 
 Native iOS + Android wrapper for the ErgMate web app, built with [Capacitor](https://capacitorjs.com).
